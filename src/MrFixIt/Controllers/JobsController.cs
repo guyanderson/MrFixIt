@@ -24,7 +24,7 @@ namespace MrFixIt.Controllers
         {
             return View();
         }
-
+        
         [HttpPost]
         public IActionResult Create(Job job)
         {
@@ -33,6 +33,7 @@ namespace MrFixIt.Controllers
             return RedirectToAction("Index");
         }
 
+        //no login needed for job creation
         public IActionResult Claim(int id)
         {
             var thisItem = db.Jobs.FirstOrDefault(items => items.JobId == id);

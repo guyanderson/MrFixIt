@@ -20,6 +20,8 @@ namespace MrFixIt.Models
         //this comes from Identity.User
         public virtual ICollection<Job> Jobs { get; set; }
 
+
+        //worker object always starts true(good), test to see if form can be broken by not putting in other data
         public Worker()
         {
             Avaliable = true;
