@@ -24,7 +24,7 @@ namespace MrFixIt.Controllers
         {
             return View();
         }
-        
+        //no login needed for job creation
         [HttpPost]
         public IActionResult Create(Job job)
         {
@@ -33,20 +33,22 @@ namespace MrFixIt.Controllers
             return RedirectToAction("Index");
         }
 
-        //no login needed for job creation
-        public IActionResult Claim(int id)
-        {
-            var thisItem = db.Jobs.FirstOrDefault(items => items.JobId == id);
-            return View(thisItem);
-        }
+
+
+       // public IActionResult Claim(int id)
+        //{
+       //     var thisItem = db.Jobs.FirstOrDefault(items => items.JobId == id);
+       //     return View(thisItem);
+       // }
 
         [HttpPost]
-        public IActionResult Claim(Job job)
+        public IActionResult ClaimJob(int JobId)
         {
+            var job = db.Jobs.FirstOrDefault(items => items.JobId == JobId);
             job.Worker = db.Workers.FirstOrDefault(i => i.UserName == User.Identity.Name);
             db.Entry(job).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return Json("Index");
         }
     }
 }
