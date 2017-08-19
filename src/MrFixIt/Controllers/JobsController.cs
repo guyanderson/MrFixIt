@@ -47,8 +47,8 @@ namespace MrFixIt.Controllers
             var job = db.Jobs.FirstOrDefault(items => items.JobId == JobId);
             job.Worker = db.Workers.FirstOrDefault(i => i.UserName == User.Identity.Name);
             db.Entry(job).State = EntityState.Modified;
-            db.SaveChanges();
-            return Json("Index");
+            //db.SaveChanges();
+            return Json(new {"first":"Shaun", "last":"Spratt");
         }
     }
 }

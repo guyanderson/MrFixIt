@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<MrFixIt.Models.Job>
 @{
 }
+
+
 <div class="text-center">
     <h3>Our Current Jobs</h3>
     @Html.ActionLink("Add a new job", "Create")
 </div>
+
 @foreach (var Job in Model)
 {
-
     <ul>
         <li>@Job.Title</li>
         <ul>
@@ -15,26 +17,17 @@
         </ul>
         @if (Job.Worker == null)
         {
-            @*<li class="btn">This job is unclaimed. @Html.ActionLink("Claim This Job", "Claim", new { @text = @Job.Title, id = Job.JobId })</li>*@
-
             <form action="ClaimJob" class="claim">
                 <input type="hidden" name="JobId" value="@Job.JobId" />
                 <button type="submit">Claim this Job</button>
             </form>
-
-
         }
         else
         {
-            <li>This Job is claimed by @Job.Worker.FirstName @Job.Worker.LastName</li>
-
+            <div id="result1"></div>
         }
-
     </ul>
     <hr />
-
-
-}
 
 <script>
     $(".claim").submit(function (event) {
@@ -45,15 +38,30 @@
             type: 'POST',
             data: $(this).serialize(),
             datatype: 'json',
-            success: function (result) {
+             success: function (result) {
+                 alert(result)
+                console.log(result)
+                $('#result1').html(result);
+             },
+            error: function (xhr, ajaxOptions, thrownError) {
+                window.alert('guy error' + xhr + thrownError)
             }
         });
     });
 </script>
+
+}
+
+
 
 
 @*
         var resultMesage = 'This Job is claimed by ' + result.Worker.FirstName + result.Worker.LastName;
     $('#result1').html(resultMessage);
 
+    This Job is claimed by @Job.Worker.FirstName @Job.Worker.LastName
 *@
+
+@*<li class="btn">This job is unclaimed. @Html.ActionLink("Claim This Job", "Claim", new { @text = @Job.Title, id = Job.JobId })</li>*@
+
+@*This Job is claimed by @Job.Worker.FirstName @Job.Worker.LastName*@
