@@ -35,10 +35,10 @@
         console.log($(this).serialize());
         $.ajax({
             url: '@Url.Action("ClaimJob")',
-            type: 'POST',
+            type: 'GET',
             data: $(this).serialize(),
             datatype: 'json',
-             success: function (result) {
+            success: function (result) {
                  alert(result)
                 console.log(result)
                 $('#result1').html(result);
