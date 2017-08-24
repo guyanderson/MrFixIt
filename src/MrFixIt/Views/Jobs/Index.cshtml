@@ -45,16 +45,17 @@
             data: $(this).serialize(),
             datatype: 'json',
             success: function (result) {
-                var temp = JSON.parse(result);
-                alert('guy result ' + temp.Name);
-                alert('guy result ' + temp.JobId);
-                
-                console.log(temp.Name)
+                console.log(result);
+                @*var temp = JSON.parse(result);*@
+                alert('guy result ' + result.worker.firstName);
+                alert('guy result ' + result.jobId);
+
+                @*  console.log(temp.Name)
                 var resultMessage = 'This Job is claimed by ' + temp.Name;
                 var Id = temp.JobId;
                 $('#result-' + Id).html(resultMessage);
-                $('#claimButton').hide();
-                
+                $('#claimButton').hide();*@
+
                 @*$('#result-' + Job.JobId, resultMessage);*@
 
             },
