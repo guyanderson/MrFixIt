@@ -42,13 +42,23 @@ namespace MrFixIt.Controllers
        // }
 
         [HttpPost]
-        public IActionResult ClaimJob(int JobId)
+        public IActionResult ClaimJob(int JobId)              
         {
             var job = db.Jobs.FirstOrDefault(items => items.JobId == JobId);
             job.Worker = db.Workers.FirstOrDefault(i => i.UserName == User.Identity.Name);
             db.Entry(job).State = EntityState.Modified;
             //db.SaveChanges();
-            return Json(job);
+            return Json("{\"Name\":\"" + job.Worker.FirstName + " " + job.Worker.LastName + "\",\"JobId\":\""+job.JobId+"\"}");
+
+            /*
+            TestModel model = new TestModel();
+            model.Name = job.Worker.FirstName + " " + job.Worker.LastName;
+            //model.JobId = job.JobId;
+            throw new Exception("my error");
+            JsonResult result = Json(model);
+            return result;
+            */
         }
     }
 }
+ 

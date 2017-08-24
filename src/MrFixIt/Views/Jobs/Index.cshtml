@@ -17,48 +17,58 @@
         </ul>
         @if (Job.Worker == null)
         {
-            <form action="ClaimJob" class="claim">
-                <input type="hidden" name="JobId" value="@Job.JobId" />
-                <button type="submit">Claim this Job</button>
-            </form>
+            <div id="claimButton">
+                <form action="ClaimJob" class="claim">
+                    <input type="hidden" name="JobId" value="@Job.JobId" />
+                    <button type="submit">Claim this Job</button>
+                </form>
+            </div>
+            <div id="result-" + @Job.JobId>you</div>
+
         }
         else
         {
-            <div id="result1"></div>
+
         }
+        
     </ul>
     <hr />
+}
 
 <script>
     $(".claim").submit(function (event) {
         event.preventDefault();
-        console.log($(this).serialize());
+        //alert($(this).serialize());
         $.ajax({
             url: '@Url.Action("ClaimJob")',
-            type: 'GET',
+            type: 'POST',
             data: $(this).serialize(),
             datatype: 'json',
-            success: function (result) {
-                 alert(result)
+            success: function (happy) {
+                var temp = JSON.parse(happy);
+                alert('guy result ' + temp.Name);
+                alert('guy result ' + temp.JobId);
+                /*
                 console.log(result)
-                $('#result1').html(result);
-             },
+                var resultMessage = 'This Job is claimed by ' + result.Worker.FirstName + result.Worker.LastName;
+                $('#result-' + Job.JobId).html(resultMessage);
+                $('#claimButton').hide();
+                */
+                @*$('#result-' + Job.JobId, resultMessage);*@
+
+            },
             error: function (xhr, ajaxOptions, thrownError) {
-                window.alert('guy error' + xhr + thrownError)
+                window.alert('guy error' + xhr.responseText + thrownError)
             }
         });
     });
 </script>
 
-}
-
-
-
 
 @*
-        var resultMesage = 'This Job is claimed by ' + result.Worker.FirstName + result.Worker.LastName;
+        var resultMessage = 'This Job is claimed by ' + result.Worker.FirstName + result.Worker.LastName;
     $('#result1').html(resultMessage);
-
+    $('#result1').html(result);
     This Job is claimed by @Job.Worker.FirstName @Job.Worker.LastName
 *@
 
