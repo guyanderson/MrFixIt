@@ -10,7 +10,17 @@
         <h3>Your Current Jobs:</h3>
         @foreach (var Job in Model.Jobs)
         {
-            <h5>@Job.Title</h5>
+            @if (Job.Completed == false)
+            {
+                <h5>@Job.Title</h5>
+                <h5 id="status-@Job.JobId">This Job in in your queue.</h5>
+            }
+            else if (Job.Completed == true)
+            {
+                <h5>@Job.Title</h5>
+                <div>This Job is complete.</div>
+
+            }
 
         }
         @if (Model.Avaliable)
@@ -23,3 +33,20 @@
         }
     </div>
 }
+
+
+@*
+    @if (Job.Worker == null)
+    {
+        <div id="result-@Job.JobId">
+            <form action="ClaimJob" class="claim">
+                <input type="hidden" name="JobId" value="@Job.JobId" />
+                <button type="submit">Claim this Job</button>
+            </form>
+        </div>
+    }
+    else
+    {
+        <div>This Job is claimed by @Job.Worker.FirstName @Job.Worker.LastName</div>
+    }
+*@
