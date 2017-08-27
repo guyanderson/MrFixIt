@@ -6,8 +6,9 @@
 {
 
     <div class="text-center">
-        <h4>Hello Worker @Model.FirstName @Model.LastName. You are Logged In</h4>
+        <h4>Hello @Model.FirstName @Model.LastName. You are Logged In</h4>
         <h3>Your Current Jobs:</h3>
+        <hr />
         @foreach (var Job in Model.Jobs)
         {
             @if (Job.Completed == false)
@@ -29,13 +30,20 @@
                 {
                     <h5 id="result-@Job.JobId">
                         <div id="pending-@Job.JobId">
-                            <div>This Job in in your queue.</div>
+                            <div>This Job is in your queue.</div>
                             <br />
                             <br />
+                            @if (Model.Avaliable == true)
+                            {
                             <form action="ActiveJob" class="active">
                                 <input type="hidden" name="JobId" value="@Job.JobId" />
                                 <button type="submit">Make this your active project</button>
                             </form>
+                            }
+                            else if (Model.Avaliable == false)
+                            {
+                            <p>You may only have 1 active job at a time.</p>
+                            }
                         </div>
                         <br />
                         <br />
@@ -45,7 +53,6 @@
                         </form>
                     </h5>
                 }
-
             }
             else if (Job.Completed == true)
             {
@@ -54,54 +61,84 @@
             }
              <hr />
         }
-        @if (Model.Avaliable)
-        {
             <h2>Please @Html.ActionLink("select a job", "Index", "Jobs").</h2>
-        }
-        else
-        {
-            <p>You are already assigned to a job.</p>
-        }
     </div>
 }
 
 <script>
-    $(".complete").submit(function (event) {
-        event.preventDefault();
-         $.ajax({
-            url: '@Url.Action("CompleteJob")',
-            type: 'POST',
-            data: $(this).serialize(),
-            datatype: 'json',
-            success: function (result) {
-                console.log(result);
-                var resultMessage = 'This Job is complete.';
-                $('#result-' + result.jobId).html(resultMessage);
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                window.alert('guy error' + xhr.responseText + thrownError)
-            }
-        });
+$(".complete").submit(function (event) {
+    event.preventDefault();
+        $.ajax({
+        url: '@Url.Action("CompleteJob")',
+        type: 'POST',
+        data: $(this).serialize(),
+        datatype: 'json',
+        success: function (result) {
+            console.log(result);
+            var resultMessage = 'This Job is complete.';
+            $('.active').show();
+            $('#result-' + result.jobId).html(resultMessage);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            window.alert('guy error' + xhr.responseText + thrownError)
+        }
     });
+});
 </script>
 
 <script>
-    $(".active").submit(function (event) {
-        event.preventDefault();
-         $.ajax({
-            url: '@Url.Action("ActiveJob")',
-            type: 'POST',
-            data: $(this).serialize(),
-            datatype: 'json',
-            success: function (result) {
-                console.log(result);
-                var resultMessage = 'You are activly working on this job.';
-                $('#pending-' + result.jobId).html(resultMessage);
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                window.alert('guy error' + xhr.responseText + thrownError)
-            }
-        });
+$(".active").submit(function(event) {
+    event.preventDefault();
+        $.ajax({
+        url: '@Url.Action("ActiveJob")',
+        type: 'POST',
+        data: $(this).serialize(),
+        datatype: 'json',
+        success: function(result) {
+            console.log(result);
+            var resultMessage = 'You are activly working on this job.';
+            $('#pending-' + result.jobId).html(resultMessage);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            window.alert('guy error' + xhr.responseText + thrownError)
+        }
     });
+});
 </script>
+
+
+
+
+@*
+      <script>
+    $(".active").submit(function(event) {
+        event.preventDefault();
+        @if (Model.Avaliable == false)
+        {
+            alert("You may only have 1 active project at a time!");
+        }
+        else if (@Model.Avaliable == true)
+        {
+            $.ajax({
+                url: '@Url.Action("ActiveJob")',
+                type: 'POST',
+                data: $(this).serialize(),
+                datatype: 'json',
+                success: function(result) {
+                    console.log(result);
+                    var resultMessage = 'You are activly working on this job.';
+                    $('#pending-' + result.jobId).html(resultMessage);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    window.alert('guy error' + xhr.responseText + thrownError)
+                }
+            });
+        }
+    });
+    </script>
+
+*@
+
+
+
 

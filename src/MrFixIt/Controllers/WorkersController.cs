@@ -47,7 +47,10 @@ namespace MrFixIt.Controllers
         {
             var job = db.Jobs.FirstOrDefault(items => items.JobId == JobId);
             job.Completed = true;
+            var worker = db.Workers.FirstOrDefault(i => i.UserName == User.Identity.Name);
+            worker.Avaliable = true;
             db.Entry(job).State = EntityState.Modified;
+            db.Entry(worker).State = EntityState.Modified;
             db.SaveChanges();
             return Json(job);
         }
