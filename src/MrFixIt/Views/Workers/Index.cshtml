@@ -13,15 +13,46 @@
             @if (Job.Completed == false)
             {
                 <h5>@Job.Title</h5>
-                <h5 id="status-@Job.JobId">This Job in in your queue.</h5>
+                if (Job.Pending == true)
+                {
+                    <h5 id="result-@Job.JobId">
+                        <div>You are activly working on this job.</div>
+                        <br />
+                        <br />
+                        <form action="CompleteJob" class="complete">
+                            <input type="hidden" name="JobId" value="@Job.JobId" />
+                            <button type="submit">Mark as Complete</button>
+                        </form>
+                    </h5>
+                }
+                else
+                {
+                    <h5 id="result-@Job.JobId">
+                        <div id="pending-@Job.JobId">
+                            <div>This Job in in your queue.</div>
+                            <br />
+                            <br />
+                            <form action="ActiveJob" class="active">
+                                <input type="hidden" name="JobId" value="@Job.JobId" />
+                                <button type="submit">Make this your active project</button>
+                            </form>
+                        </div>
+                        <br />
+                        <br />
+                        <form action="CompleteJob" class="complete">
+                            <input type="hidden" name="JobId" value="@Job.JobId" />
+                            <button type="submit">Mark as Complete</button>
+                        </form>
+                    </h5>
+                }
+
             }
             else if (Job.Completed == true)
             {
                 <h5>@Job.Title</h5>
                 <div>This Job is complete.</div>
-
             }
-
+             <hr />
         }
         @if (Model.Avaliable)
         {
@@ -34,19 +65,43 @@
     </div>
 }
 
+<script>
+    $(".complete").submit(function (event) {
+        event.preventDefault();
+         $.ajax({
+            url: '@Url.Action("CompleteJob")',
+            type: 'POST',
+            data: $(this).serialize(),
+            datatype: 'json',
+            success: function (result) {
+                console.log(result);
+                var resultMessage = 'This Job is complete.';
+                $('#result-' + result.jobId).html(resultMessage);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                window.alert('guy error' + xhr.responseText + thrownError)
+            }
+        });
+    });
+</script>
 
-@*
-    @if (Job.Worker == null)
-    {
-        <div id="result-@Job.JobId">
-            <form action="ClaimJob" class="claim">
-                <input type="hidden" name="JobId" value="@Job.JobId" />
-                <button type="submit">Claim this Job</button>
-            </form>
-        </div>
-    }
-    else
-    {
-        <div>This Job is claimed by @Job.Worker.FirstName @Job.Worker.LastName</div>
-    }
-*@
+<script>
+    $(".active").submit(function (event) {
+        event.preventDefault();
+         $.ajax({
+            url: '@Url.Action("ActiveJob")',
+            type: 'POST',
+            data: $(this).serialize(),
+            datatype: 'json',
+            success: function (result) {
+                console.log(result);
+                var resultMessage = 'You are activly working on this job.';
+                $('#pending-' + result.jobId).html(resultMessage);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                window.alert('guy error' + xhr.responseText + thrownError)
+            }
+        });
+    });
+</script>
+

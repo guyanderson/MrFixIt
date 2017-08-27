@@ -41,9 +41,7 @@
             data: $(this).serialize(),
             datatype: 'json',
             success: function (result) {
-                console.log(result);
                 var resultMessage = 'This Job is claimed by ' + result.worker.firstName +  " " + result.worker.lastName;
-                var Id = result.jobId;
                 $('#result-' + result.jobId).html(resultMessage);
             },
             error: function (xhr, ajaxOptions, thrownError) {

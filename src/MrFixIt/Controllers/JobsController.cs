@@ -49,15 +49,6 @@ namespace MrFixIt.Controllers
             db.Entry(job).State = EntityState.Modified;
             db.SaveChanges();
             return Json(job);
-
-            /*
-            TestModel model = new TestModel();
-            model.Name = job.Worker.FirstName + " " + job.Worker.LastName;
-            //model.JobId = job.JobId;
-            throw new Exception("my error");
-            JsonResult result = Json(model);
-            return result;
-            */
         }
     }
 }
