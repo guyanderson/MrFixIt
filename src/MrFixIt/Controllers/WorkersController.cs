@@ -56,9 +56,12 @@ namespace MrFixIt.Controllers
         public IActionResult ActiveJob(int JobId)
         {
             var job = db.Jobs.FirstOrDefault(items => items.JobId == JobId);
+            var worker = db.Workers.FirstOrDefault(i => i.UserName == User.Identity.Name);
             job.Pending = true;
+            worker.Avaliable = false;
             db.Entry(job).State = EntityState.Modified;
-            //db.SaveChanges();
+            db.Entry(worker).State = EntityState.Modified;
+            db.SaveChanges();
             return Json(job);
         }
 
