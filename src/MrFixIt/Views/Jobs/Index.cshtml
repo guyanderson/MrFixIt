@@ -17,18 +17,16 @@
         </ul>
         @if (Job.Worker == null)
         {
-            <div id="claimButton">
+            <div id="result-@Job.JobId">
                 <form action="ClaimJob" class="claim">
                     <input type="hidden" name="JobId" value="@Job.JobId" />
                     <button type="submit">Claim this Job</button>
                 </form>
             </div>
-            <div id="result-@Job.JobId">you</div>
-
         }
         else
         {
-
+            <div>This Job is claimed by @Job.Worker.FirstName @Job.Worker.LastName</div>
         }
         
     </ul>
@@ -38,26 +36,16 @@
 <script>
     $(".claim").submit(function (event) {
         event.preventDefault();
-        //alert($(this).serialize());
-        $.ajax({
+         $.ajax({
             url: '@Url.Action("ClaimJob")',
             type: 'POST',
             data: $(this).serialize(),
             datatype: 'json',
             success: function (result) {
                 console.log(result);
-                @*var temp = JSON.parse(result);*@
-                alert('guy result ' + result.worker.firstName);
-                alert('guy result ' + result.jobId);
-
-                @*  console.log(temp.Name)
-                var resultMessage = 'This Job is claimed by ' + temp.Name;
-                var Id = temp.JobId;
-                $('#result-' + Id).html(resultMessage);
-                $('#claimButton').hide();*@
-
-                @*$('#result-' + Job.JobId, resultMessage);*@
-
+                var resultMessage = 'This Job is claimed by ' + result.worker.firstName +  " " + result.worker.lastName;
+                var Id = result.jobId;
+                $('#result-' + result.jobId).html(resultMessage);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 window.alert('guy error' + xhr.responseText + thrownError)
@@ -76,4 +64,12 @@
 
 @*<li class="btn">This job is unclaimed. @Html.ActionLink("Claim This Job", "Claim", new { @text = @Job.Title, id = Job.JobId })</li>*@
 
-@*This Job is claimed by @Job.Worker.FirstName @Job.Worker.LastName*@
+@*This Job is claimed by @Job.Worker.FirstName @Job.Worker.LastName
+    <div id="result-@Job.JobId">you</div>
+                    $('#claimButton-' + result.jobId).hide();
+
+                    alert('guy result ' + result.worker.firstName);
+                alert('guy result ' + result.jobId);
+*@
+@*$('#result-' + Job.JobId, resultMessage);*@
+@*var temp = JSON.parse(result);*@
