@@ -33,14 +33,6 @@ namespace MrFixIt.Controllers
             return RedirectToAction("Index");
         }
 
-
-
-       // public IActionResult Claim(int id)
-       // {
-       //     var thisItem = db.Jobs.FirstOrDefault(items => items.JobId == id);
-       //     return View(thisItem);
-       // }
-
         [HttpPost]
         public IActionResult ClaimJob(int JobId)              
         {

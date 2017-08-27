@@ -2,7 +2,6 @@
 @{
 }
 
-
 <div class="text-center">
     <h3>Our Current Jobs</h3>
     @Html.ActionLink("Add a new job", "Create")
@@ -50,23 +49,3 @@
         });
     });
 </script>
-
-
-@*
-        var resultMessage = 'This Job is claimed by ' + result.Worker.FirstName + result.Worker.LastName;
-    $('#result1').html(resultMessage);
-    $('#result1').html(result);
-    This Job is claimed by @Job.Worker.FirstName @Job.Worker.LastName
-*@
-
-@*<li class="btn">This job is unclaimed. @Html.ActionLink("Claim This Job", "Claim", new { @text = @Job.Title, id = Job.JobId })</li>*@
-
-@*This Job is claimed by @Job.Worker.FirstName @Job.Worker.LastName
-    <div id="result-@Job.JobId">you</div>
-                    $('#claimButton-' + result.jobId).hide();
-
-                    alert('guy result ' + result.worker.firstName);
-                alert('guy result ' + result.jobId);
-*@
-@*$('#result-' + Job.JobId, resultMessage);*@
-@*var temp = JSON.parse(result);*@

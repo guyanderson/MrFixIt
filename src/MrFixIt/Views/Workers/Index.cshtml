@@ -4,7 +4,6 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-
     <div class="text-center">
         <h4>Hello @Model.FirstName @Model.LastName. You are Logged In</h4>
         <h3>Your Current Jobs:</h3>
@@ -105,40 +104,6 @@ $(".active").submit(function(event) {
     });
 });
 </script>
-
-
-
-
-@*
-      <script>
-    $(".active").submit(function(event) {
-        event.preventDefault();
-        @if (Model.Avaliable == false)
-        {
-            alert("You may only have 1 active project at a time!");
-        }
-        else if (@Model.Avaliable == true)
-        {
-            $.ajax({
-                url: '@Url.Action("ActiveJob")',
-                type: 'POST',
-                data: $(this).serialize(),
-                datatype: 'json',
-                success: function(result) {
-                    console.log(result);
-                    var resultMessage = 'You are activly working on this job.';
-                    $('#pending-' + result.jobId).html(resultMessage);
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    window.alert('guy error' + xhr.responseText + thrownError)
-                }
-            });
-        }
-    });
-    </script>
-
-*@
-
 
 
 

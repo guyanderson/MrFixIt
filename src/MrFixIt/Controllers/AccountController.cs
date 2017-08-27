@@ -28,11 +28,6 @@ namespace MrFixIt.Controllers
             _db = db;
         }
 
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
-
         public IActionResult Index()
         {
             if (User.Identity.IsAuthenticated)
